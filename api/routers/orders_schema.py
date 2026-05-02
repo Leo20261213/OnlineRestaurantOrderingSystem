@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 class OrderBase(BaseModel):
     customer_id: int
@@ -14,4 +15,4 @@ class OrderSchema(OrderBase):
     order_id: int
 
     class Config:
-        from_attributes = True
+        orm_mode = True

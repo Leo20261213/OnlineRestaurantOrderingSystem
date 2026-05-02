@@ -1,8 +1,7 @@
-class conf:
-    db_host = "localhost"
-    db_name = "sandwich_maker_api"
-    db_port = 3306
-    db_user = "root"
-    db_password = "rootroot"
-    app_host = "localhost"
-    app_port = 8000
+import os
+
+class Settings:
+    PROJECT_NAME: str = "Online Restaurant Ordering System"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./restaurant.db")
+
+settings = Settings()

@@ -11,4 +11,4 @@ class OrderDetailsCreate(OrderDetailsBase):
 
 class OrderDetailsSchema(OrderDetailsBase):
     class Config:
-        from_attributes = True
+        orm_mode = True

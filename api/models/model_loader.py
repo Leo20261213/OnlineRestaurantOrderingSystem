@@ -1,11 +1,6 @@
-from . import orders, order_details, recipes, sandwiches, resources
-
-from ..dependencies.database import engine
-
+# api/models/model_loader.py
+from ..dependencies.database import Base, engine
+from . import customer, menu_item, orders, order_details, payment, admin, restaurant_staff  # noqa: F401
 
 def index():
-    orders.Base.metadata.create_all(engine)
-    order_details.Base.metadata.create_all(engine)
-    recipes.Base.metadata.create_all(engine)
-    sandwiches.Base.metadata.create_all(engine)
-    resources.Base.metadata.create_all(engine)
+    Base.metadata.create_all(bind=engine)

@@ -1,6 +1,7 @@
-from . import orders, order_details
+from fastapi import APIRouter
+from api.routers.orders import router as orders_router
+from api.routers.menu_items import router as menu_items_router
 
-
-def load_routes(app):
-    app.include_router(orders.router)
-    app.include_router(order_details.router)
+router = APIRouter()
+router.include_router(orders_router)
+router.include_router(menu_items_router)

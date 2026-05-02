@@ -14,4 +14,4 @@ class OrderSchema(OrderBase):
     order_id: int
 
     class Config:
-        from_attributes = True
+        orm_mode = True

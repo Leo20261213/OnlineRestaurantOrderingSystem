@@ -1,35 +1,33 @@
-from fastapi import APIRouter, Depends, FastAPI, status, Response
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ..controllers import orders as controller
-from ..schemas import orders as schema
-from ..dependencies.database import engine, get_db
+from ..dependencies.database import SessionLocal
+from ..controllers.orders import create_order, list_orders, get_order
+from ..schemas.orders import OrderCreate, OrderSchema
 
-router = APIRouter(
-    tags=['Orders'],
-    prefix="/orders"
-)
+router = APIRouter(prefix="/orders", tags=["Orders"])
 
 
-@router.post("/", response_model=schema.Order)
-def create(request: schema.OrderCreate, db: Session = Depends(get_db)):
-    return controller.create(db=db, request=request)
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 
-@router.get("/", response_model=list[schema.Order])
-def read_all(db: Session = Depends(get_db)):
-    return controller.read_all(db)
+@router.post("/", response_model=OrderSchema)
+def create_order_endpoint(order: OrderCreate, db: Session = Depends(get_db)):
+    return create_order(db, order)
 
 
-@router.get("/{item_id}", response_model=schema.Order)
-def read_one(item_id: int, db: Session = Depends(get_db)):
-    return controller.read_one(db, item_id=item_id)
+@router.get("/", response_model=list[OrderSchema])
+def list_orders_endpoint(db: Session = Depends(get_db)):
+    return list_orders(db)
 
 
-@router.put("/{item_id}", response_model=schema.Order)
-def update(item_id: int, request: schema.OrderUpdate, db: Session = Depends(get_db)):
-    return controller.update(db=db, request=request, item_id=item_id)
-
-
-@router.delete("/{item_id}")
-def delete(item_id: int, db: Session = Depends(get_db)):
-    return controller.delete(db=db, item_id=item_id)
+@router.get("/{order_id}", response_model=OrderSchema)
+def get_order_endpoint(order_id: int, db: Session = Depends(get_db)):
+    db_order = get_order(db, order_id)
+    if not db_order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    return db_order
