@@ -1,17 +1,15 @@
-from pydantic import BaseModel
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 
-class OrderBase(BaseModel):
+class OrderCreate(BaseModel):
     customer_id: int
-    order_date: datetime
-    status: str
     total_amount: float
+    status: str | None = None
 
-class OrderCreate(OrderBase):
-    pass
 
-class OrderSchema(OrderBase):
-    order_id: int
+class OrderResponse(BaseModel):
+    id: int
+    customer_id: int
+    total_amount: float
+    status: str | None = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

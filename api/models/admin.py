@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Integer, String
 from api.dependencies.database import Base
 
-class Admin(Base):
-    __tablename__ = "admins"
+class Customer(Base):
+    __tablename__ = "customers"
 
-    admin_id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, nullable=False)
-    email = Column(String, unique=True, nullable=False)
-    role = Column(String, nullable=False)
+    customer_id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    phone = Column(String, nullable=True)
+    address = Column(String, nullable=True)

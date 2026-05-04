@@ -1,7 +1,13 @@
-from .customer import Customer  # noqa: F401
-from .menu_item import MenuItem  # noqa: F401
-from .orders import Order  # noqa: F401
-from .order_details import OrderDetails  # noqa: F401
-from .payment import Payment  # noqa: F401
-from .admin import Admin  # noqa: F401
-from .restaurant_staff import RestaurantStaff  # noqa: F401
+from api.models.user import User
+from api.models.customer import Customer
+from api.models.menu_items import MenuItem
+from api.models.orders import Order
+from api.models.order_item import OrderItem
+
+__all__ = [
+    "User",
+    "Customer",
+    "MenuItem",
+    "Order",
+    "OrderItem",
+]
